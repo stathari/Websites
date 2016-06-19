@@ -1,0 +1,1884 @@
+<html>
+<head>
+    <title>TMS </title>
+
+    <!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="css/tabs.css">
+	<link rel="stylesheet" href="css/magicsuggest.css">
+
+	 <link rel="stylesheet" href="js/prettify/prettify.css">
+    <script src="js/jquery-1.11.1.min.js"></script>
+	<link href="js/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="bootstrap.js"></script>
+	<script src="js/d3.v2.min.js"></script>
+	<script src="js/d3.min.js"></script>
+	<script src="js/dimple.v2.0.0.min.js"></script>
+	<script src="js/hierarchical-pie.js"></script>
+	<script src="js/d3.tip.v0.6.3.js"></script>
+	<script type="text/javascript" src="js/highcharts/highcharts.js"></script>
+	<script type="text/javascript" src="js/highcharts/drilldown-multiseries.js"></script> 
+	<script type="text/javascript" src="js/app-charts/custom-charts.js"></script> 
+	<script type="text/javascript" src="js/magicsuggest-min.js"></script>
+	<script type="text/javascript" src="data/histograms.js"></script>
+	
+    <style>
+	
+	
+.background {
+  fill: none;
+  pointer-events: all;
+}
+.area {
+  fill: steelblue;
+  clip-path: url(#clip);
+}
+.highcharts-button{
+	margin-bottom:100px;
+}
+#states {
+  stroke: #000;
+  stroke-width: 1.5px;
+}
+
+#states text {
+  fill: #000;
+  stroke: none;
+  text-anchor:middle;
+  font-size: 10px;
+}
+
+#states .active {
+  fill: steelblue !important;
+}
+
+#states text.active {
+  font-size: 12px;
+  font-weight:bold;
+  fill: #fff;
+  stroke-width: .5px;
+  fill: #fff !important;
+  stroke: #000;
+}
+		.studio- {
+			padding-left:0;
+		}
+		#tooltip-chart-holder label{
+			margin-top:50px;
+			text-align:center;
+			width:100%;
+			color:#ee0000;
+		}
+		.genre- {
+			height:auto;
+			overflow:auto;
+		}
+		.genre-  li{
+			cursor:pointer;
+			padding-left:4px;
+		}
+		.genre-  .active{
+			width:80px;
+			background-color:#fff;
+			border:1px solid #ddd;
+		}
+		ul.year  li{
+			cursor:pointer;
+		}
+		ul.year  .active{
+			width:40px;
+			background-color:#fff;
+			border:1px solid #ddd;
+		}
+		#tooltip-chart-holder{
+			height:100%;
+			background-color:#fff;
+		}
+        .modalDialog {
+            position: absolute;
+            font-family: Arial, Helvetica, sans-serif;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: rgba(0,0,0,0.8);
+            z-index: 99999;
+            opacity: 0;
+            -webkit-transition: opacity 400ms ease-in;
+            -moz-transition: opacity 400ms ease-in;
+            transition: opacity 400ms ease-in;
+            pointer-events: none;
+        }
+            .modalDialog:target {
+                opacity: 1;
+               pointer-events:auto;
+            }
+
+       
+        .close {
+            background: #606061;
+            color: #FFFFFF;
+            line-height: 25px;
+            position: absolute;
+            right: -12px;
+            text-align: center;
+            top: -10px;
+            width: 24px;
+            text-decoration: none;
+            font-weight: bold;
+            -webkit-border-radius: 12px;
+            -moz-border-radius: 12px;
+            border-radius: 12px;
+            -moz-box-shadow: 1px 1px 3px #000;
+            -webkit-box-shadow: 1px 1px 3px #000;
+            box-shadow: 1px 1px 3px #000;
+        }
+
+            .close:hover {
+                background: #00d9ff;
+            }
+			
+        a {
+            text-decoration:none;
+        }.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.x.axis path {
+  display: none;
+}
+
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
+
+.bar {
+  fill: steelblue;
+}
+
+.bar:hover {
+  fill: #364B76;
+}
+
+.axis {
+  font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.x.axis path {
+  display: none;
+}
+.d3-tip {
+  line-height: 1;
+  font-weight: bold;
+  padding: 12px;
+  background:#FAFAFB;
+  color: #0E356B;
+  border-radius: 2px;
+  z-index:999999;
+}
+
+/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+  box-sizing: border-box;
+  display: inline;
+  font-size: 10px;
+  width: 100%;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.8);
+  content: "\25BC";
+  position: absolute;
+  text-align: center;
+}
+
+/* Style northward tooltips differently */
+.d3-tip.n:after {
+  margin: -1px 0 0 0;
+  top: 100%;
+  left: 0;
+}
+.maincontent12{
+width:auto;
+margin-left:auto;
+margin-right:auto;
+}
+#chart{
+width:300px;
+float:left;
+}
+.pie-chart-legend-1{
+margin-left:auto;
+margin-right:auto;
+width:200px !important;
+float:left;
+
+}
+
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.x.axis path {
+  display: none;
+}
+
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
+    </style>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            
+            //Default Action
+            $(".tab_content").hide(); //Hide all content
+            $("ul.tabs li:first").addClass("active").show(); //Activate first tab
+            $(".tab_content:first").show(); //Show first tab content
+			loadTooltipChart('tooltip-chart-holder');
+            //On Click Event
+            $("ul.tabs li").click(function () {
+                $("ul.tabs li").removeClass("active"); //Remove any "active" class
+                $(this).addClass("active"); //Add "active" class to selected tab
+                $(".tab_content").hide(); //Hide all tab content
+                var activeTab = $(this).find("a").attr("href"); //Find the rel attribute value to identify the active tab + content
+                $(activeTab).fadeIn(); //Fade in the active content
+				if( $(this).attr('rel') == "pie-chart"){
+					loadPieChart();
+				} else if($(this).attr('rel') == "tooltip-chart"){
+					$('#tooltip-chart-holder').empty();
+					loadTooltipChart('tooltip-chart-holder');
+				}
+                return false;
+            });
+			var currentYear = 2014;
+			var currentGenre = "All";
+			var currnetStudio = "Focus Features";
+			//handle year  
+			$('ul.year  li').click( function(){
+				$("ul.year  li").removeClass("active");
+				$(this).addClass("active"); 
+				var year = $(this).attr('rel') ;
+				currentYear = year;
+				loadTooltipChart('tooltip-chart-holder', currentYear, currentGenre, currnetStudio);	
+			});
+			$('.genre-  li').click( function(){
+				$(".genre-  li").removeClass("active");
+				$(this).addClass("active"); 
+				var genre = currentGenre = $(this).text();
+				loadTooltipChart('tooltip-chart-holder', currentYear, currentGenre, currnetStudio);	
+			});
+			
+			$('#studio-dd').on('change', function(){
+				currnetStudio = $(this).val();
+				loadTooltipChart('tooltip-chart-holder', currentYear, currentGenre, currnetStudio);	
+			});
+			
+			$('.myButton').on('click',function(){
+				$('#rightmodal').empty();
+				$(".myButton").removeClass("active-btn");
+				$(this).addClass("active-btn"); 
+				var type = $(this).attr('rel');
+				if( type == 'earning'){
+					loadLineChart('rightmodal');
+				} else if( type == 'exitPolls'){				
+					loadHeatMap('rightmodal');
+				}
+                else if(type== 'theatreTrend'){
+                    loadLineChart1('rightmodal');
+                }
+					else if( type == 'social'){				
+					loadAreaChart('rightmodal');
+					}
+			});
+			
+        });
+		
+function loadPieChart(){
+	d3.json("data/pie-chart-data.json", function(error, response) {
+			if (!response)
+			response = error;
+			response.data.metaData.series[0].data = response.data.seriesData;
+			response.data.metaData.drilldown = response.data.drillDownData;
+			response.data.metaData.chart.renderTo = "maincontent1";
+			response.data.metaData.chart.height = $('#maincontent1').height();
+			if($(document).width() <=768){
+				response.data.metaData.chart.height = $('#maincontent1').height()/1.5;
+				response.data.metaData.chart.width = 500;
+				response.data.metaData.chart.marginTop = 50;
+				response.data.metaData.chart.marginLeft = 50;
+			}
+			new Highcharts.Chart(response.data.metaData);
+			
+	});
+	
+}
+function hideShow(event){
+	var element = event.currentTarget;
+	var descriptionId = $(element).attr("descriptionId");
+	var textArea = document.getElementById(descriptionId);
+	
+	if (textArea.style.display=="block"){
+		textArea.style.display="none";
+		 $(descriptionId).removeClass('active');
+			} else {
+		 $(descriptionId).addClass('active');
+		textArea.style.display="block";
+	}
+}
+
+function multilineChart(){
+$('.comparemovies').empty();
+var dynamicWidth = $(".multilinechart").width();
+	  var margin = {top: 20, right: 55, bottom: 50, left: 40},
+          width  = dynamicWidth - margin.left - margin.right,
+          height = 300  - margin.top  - margin.bottom;
+
+      var x = d3.scale.ordinal()
+          .rangeRoundBands([0, width], .1);
+
+      var y = d3.scale.linear()
+          .rangeRound([height, 0]);
+
+      var xAxis = d3.svg.axis()
+          .scale(x)
+          .orient("bottom");
+
+      var yAxis = d3.svg.axis()
+          .scale(y)
+          .orient("left");
+
+      var line = d3.svg.line()
+          .interpolate("cardinal")
+          .x(function (d) { return x(d.label) + x.rangeBand() / 2; })
+          .y(function (d) { return y(d.value); });
+
+      var color = d3.scale.ordinal()
+          .range(["#001c9c","#101b4d","#475003","#9c8305","#d3c47c"]);
+
+      var svg = d3.select("#multilinechart").append("svg")
+          .attr("width",  width  + margin.left + margin.right)
+          .attr("height", height + margin.top  + margin.bottom)
+        .append("g")
+          .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+      d3.csv("data/crunchbase-quarters.csv", function (error, data) {
+
+        var labelVar = 'quarter';
+        var varNames = d3.keys(data[0]).filter(function (key) { return key !== labelVar;});
+        color.domain(varNames);
+
+        var seriesData = varNames.map(function (name) {
+          return {
+            name: name,
+            values: data.map(function (d) {
+              return {name: name, label: d[labelVar], value: +d[name]};
+            })
+          };
+        });
+
+        x.domain(data.map(function (d) { return d.quarter; }));
+        y.domain([
+          d3.min(seriesData, function (c) { 
+            return d3.min(c.values, function (d) { return d.value; });
+          }),
+          d3.max(seriesData, function (c) { 
+            return d3.max(c.values, function (d) { return d.value; });
+          })
+        ]);
+
+        svg.append("g")
+            .attr("class", "x axis")
+            .attr("transform", "translate(0," + height + ")")
+            .call(xAxis)
+   .selectAll("text")
+      .style("text-anchor", "end")
+      .attr("dx", "-.8em")
+      .attr("dy", "-.55em")
+      .attr("transform", "rotate(-90)" );
+
+        svg.append("g")
+            .attr("class", "y axis")
+            .call(yAxis)
+          .append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 6)
+            .attr("dy", ".71em")
+            .style("text-anchor", "end")
+            .text("Earnings");
+
+        var series = svg.selectAll(".series")
+            .data(seriesData)
+          .enter().append("g")
+            .attr("class", "series");
+
+        series.append("path")
+          .attr("class", "line")
+          .attr("d", function (d) { return line(d.values); })
+          .style("stroke", function (d) { return color(d.name); })
+          .style("stroke-width", "1px")
+          .style("fill", "none")
+
+        series.selectAll(".point")
+          .data(function (d) { return d.values; })
+          .enter().append("circle")
+           .attr("class", "point")
+           .attr("cx", function (d) { return x(d.label) + x.rangeBand()/2; })
+           .attr("cy", function (d) { return y(d.value); })
+           .attr("r", "1.5px")
+           .style("fill", function (d) { return color(d.name); })
+           .style("stroke", "grey")
+           .style("stroke-width", "1px")
+           .on("mouseover", function (d) { showPopover.call(this, d); })
+           .on("mouseout",  function (d) { removePopovers(); })
+
+        var legend = svg.selectAll(".legend")
+            .data(varNames.slice().reverse())
+          .enter().append("g")
+            .attr("class", "legend")
+            .attr("transform", function (d, i) { return "translate(55," + i * 20 + ")"; });
+
+        legend.append("rect")
+            .attr("x", width - 10)
+            .attr("width", 10)
+            .attr("height", 10)
+            .style("fill", color)
+            .style("stroke", "grey");
+
+        legend.append("text")
+            .attr("x", width - 12)
+            .attr("y", 6)
+            .attr("dy", ".35em")
+            .style("text-anchor", "end")
+            .text(function (d) { return d; });
+			
+        function removePopovers () {
+          $('.popover').each(function() {
+            $(this).remove();
+          }); 
+        }
+
+        function showPopover (d) {
+          $(this).popover({
+            title: d.name,
+            placement: 'auto top',
+            container: '#multilinechart',
+            trigger: 'manual',
+            html : true,
+            content: function() { 
+              return "Quarter: " + d.label + 
+                     "<br/>Earning: " + d3.format(",")(d.value ? d.value: d.y1 - d.y0); }
+          });
+          $(this).popover('show')
+        }
+      });
+    
+loadHeatMap1('maincontentfullleftchart1');
+loadHeatMap1('maincontentfullrightchart1');
+}
+
+    </script>
+
+    <script type="text/javascript">
+	$( document ).ready(function() {
+		 loadChart();
+		 loadChart1();
+		 
+		$('#genre- ').magicSuggest({
+				placeholder: 'Select...',
+				allowFreeEntries: false,
+				data: [{
+					id: 1,
+					name: 'Action'
+				}, {
+					id: 2,
+					name: 'Animation'
+				},	
+				{
+					id: 3,
+					name: 'Drama'
+				}, 
+				{
+					id: 4,
+					name: 'Comedy'
+				},
+				{
+					id: 5,
+					name: 'Crime'
+				},	
+				{
+					id: 7,
+					name: 'Horror'
+				},
+				{
+					id: 8,
+					name: 'SciFi'
+				},
+				{
+					id: 9,
+					name: 'Thriller'
+				},
+				{
+					id: 10,
+					name: 'All'
+				}],
+				value:['All'],
+				selectionPosition: 'bottom',
+				selectionStacked: true,
+				selectionRenderer: function(data){
+					return data.name;
+				},
+				selectionchange: function(){
+					alert('change');
+				}
+			});
+		});
+function closeFunc(){
+$('#openModal').hide();
+}
+function closeFunc1(){
+$('#openModal1').hide();
+}
+	
+	 function loadChart(){
+
+	 $('#openModal').show();
+	 $('#rightmodal').empty();
+			 loadLineChart('rightmodal');
+	 return;/*		
+var d = $("#rightmodal").width();
+
+var margin = {top: 20, right: 20, bottom: 30, left: 70},
+    width = d - margin.left - margin.right,
+    height = 400 - margin.top - margin.bottom;
+
+var parseDate = d3.time.format("%d-%b-%y").parse;
+
+var x = d3.time.scale()
+    .range([0, width]);
+
+var y = d3.scale.linear()
+    .range([height, 0]);
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom");
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left");
+
+var line = d3.svg.line()
+    .x(function(d) { return x(d.date); })
+    .y(function(d) { return y(d.expectedearning); });
+
+var svg = d3.select(".rightmodal").append("svg")
+    .attr("width", '100%')
+    .attr("height", '100%')
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+d3.tsv("data.tsv", function(error, data) {
+  data.forEach(function(d) {
+    d.date = parseDate(d.date);
+    d.expectedearning = +d.expectedearning;
+  });
+
+  x.domain(d3.extent(data, function(d) { return d.date; }));
+  y.domain(d3.extent(data, function(d) { return d.expectedearning; }));
+
+  svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis)
+	   .selectAll("text")
+      .style("text-anchor", "end")
+      .attr("dx", "-.8em")
+      .attr("dy", "-.55em")
+      .attr("transform", "rotate(-90)" );;
+
+  svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("Price ($)");
+
+  svg.append("path")
+      .datum(data)
+      .attr("class", "line")
+      .attr("d", line);
+});*/
+
+}
+	 function loadChart1(){
+	 $('#openModal1').show();
+	 $('#rightmodal1').empty();
+				
+var dynamicWidth = $("#rightmodal1").width();
+
+var margin = {top: 20, right: 20, bottom: 3, left: 70},
+    width = dynamicWidth - margin.left - margin.right,
+    height = 400 - margin.top - margin.bottom;
+
+var x = d3.scale.ordinal()
+    .rangeRoundBands([0, width], .1);
+
+var y = d3.scale.linear()
+    .range([height, 0]);
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom");
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left")
+    .ticks(10, " ");
+
+	var tip = d3.tip()
+  .attr('class', 'd3-tip')
+  .offset([-10, 0])
+  .html(function(d) {
+    return "<strong>"+d.MovieName+":</strong> <span style='color:green'>" + d.Earning + "</span>";
+  });
+var svg = d3.select(".rightmodal1").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+	svg.call(tip);
+d3.tsv("data1.tsv", type, function(error, data) {
+  x.domain(data.map(function(d) { return d.MovieName; }));
+  y.domain([0, d3.max(data, function(d) { return d.Earning; })]);
+
+  svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis)
+	   .selectAll("text")
+      .style("text-anchor", "end")
+      .attr("dx", "-.8em")
+      .attr("dy", "-.55em")
+      .attr("transform", "rotate(-50)" );
+
+  svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("Earning");
+
+  svg.selectAll(".bar")
+      .data(data)
+    .enter().append("rect")
+      .attr("class", "bar")
+      .attr("x", function(d) { return x(d.MovieName); })
+      .attr("width", x.rangeBand())
+      .attr("y", function(d) { return y(d.Earning); })
+      .attr("height", function(d) { return height - y(d.Earning); })
+		.on('mouseover', tip.show)
+		.on('mouseout', tip.hide);
+});
+
+
+}
+function type(d) {
+  d.Earning = +d.Earning;
+  return d;
+}
+
+
+$(window).resize(function(){
+  loadChart();
+}); 
+$(window).resize(function(){
+  loadChart1();
+});
+
+$(function () {
+var dynamicWidth = $("#maincontentfullleft").width();
+        $('#maincontentfullleftchart').highcharts({
+            chart: {
+                type: 'bar',
+				height: 500,
+				width: dynamicWidth
+				
+            },
+            title: {
+                text: 'Memorial Day'
+            },
+            subtitle: {
+                text: ''
+            },
+            xAxis: {
+				categories: [ 'Drama', 'Action', 'Comedy', 'Animation', 'Documentary'],
+                title: {
+                    text: null
+                }
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Earnings (millions)',
+                    align: 'high'
+                },
+                labels: {
+                    overflow: 'justify'
+                }
+            },
+            tooltip: {
+                valueSuffix: ' millions'
+            },
+            plotOptions: {
+                bar: {
+                    dataLabels: {
+                        enabled: true
+                    }
+                }
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'top',
+                x: -20,
+                y: 80,
+                floating: true,
+                borderWidth: 0.5,
+                backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor || '#FFFFFF'),
+                shadow: true
+            },
+            credits: {
+                enabled: false
+            },
+            series: [{
+                name: 'Year 2013',
+                data: [0,97.4,41.7,33.5,0.027]},
+				{name: 'Year 2014',
+				data: [1,90.8,14.2,0,0]
+            }
+            ]
+			
+			
+        });
+    });
+    
+
+$(function () {
+var dynamicWidth = $("#maincontentfullright").width();
+        $('#maincontentfullrightchart').highcharts({
+            chart: {
+                type: 'bar',
+				height: 500,
+				width: dynamicWidth
+				
+            },
+            title: {
+                text: 'Christmas Day'
+            },
+            subtitle: {
+                text: ''
+            },
+            xAxis: {
+                categories: [ 'Fantasy', 'Drama', 'Comedy'],
+                title: {
+                    text: null
+                }
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Earnings (millions)',
+                    align: 'high'
+                },
+                labels: {
+                    overflow: 'justify'
+                }
+            },
+            tooltip: {
+                valueSuffix: ' millions'
+            },
+            plotOptions: {
+                bar: {
+                    dataLabels: {
+                        enabled: true
+                    }
+                }
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'top',
+                x: -20,
+                y: 80,
+                floating: true,
+                borderWidth: 0.5,
+                backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor || '#FFFFFF'),
+                shadow: false
+            },
+            credits: {
+                enabled: false
+            },
+            series: [{
+                name: 'Year 2012',
+                data: [0,61.5, 14.6]
+            },
+			{
+				name: 'Year 2013',
+				data:[9.9,2.27,38.5]
+			}
+            ]
+        });
+    });
+  function loadChart3(){
+$('#openModal2').show();
+	 $('#rightmodal2').empty();
+$(function() {
+	var seriesOptions = [],
+		yAxisOptions = [],
+		seriesCounter = 0,
+		names = ['MSFT', 'AAPL', 'GOOG'],
+		colors = Highcharts.getOptions().colors;
+
+	$.each(names, function(i, name) {
+
+		$.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename='+ name.toLowerCase() +'-c.json&callback=?',	function(data) {
+
+			
+			seriesOptions[i] = {
+				name: name,
+				data: data
+			};
+
+			// As we're loading the data asynchronously, we don't know what order it will arrive. So
+			// we keep a counter and create the chart when all the data is loaded.
+			seriesCounter++;
+
+			if (seriesCounter == names.length) {
+				createChart();
+			}
+		});
+	});
+
+
+
+	// create the chart when all data is loaded
+	function createChart() {
+
+		$('#rightModal2').highcharts('StockChart', {
+
+		    rangeSelector: {
+				inputEnabled: $('#rightModal2').width() > 480,
+		        selected: 4
+		    },
+
+		    yAxis: {
+		    	labels: {
+		    		formatter: function() {
+		    			return (this.value > 0 ? '+' : '') + this.value + '%';
+		    		}
+		    	},
+		    	plotLines: [{
+		    		value: 0,
+		    		width: 2,
+		    		color: 'silver'
+		    	}]
+		    },
+		    
+		    plotOptions: {
+		    	series: {
+		    		compare: 'percent'
+		    	}
+		    },
+		    
+		    tooltip: {
+		    	pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.change}%)<br/>',
+		    	valueDecimals: 2
+		    },
+		    
+		    series: seriesOptions
+		});
+	}
+
+});}
+
+$(document).ready(function() {
+ 
+    //Default Action
+    $(".tab_content1").hide(); //Hide all content
+    $("ul.tabs1 li:first").addClass("active").show(); //Activate first tab
+    $(".tab_content1:first").show(); //Show first tab content
+     
+    //On Click Event
+    $("ul.tabs1 li").click(function() {
+        $("ul.tabs1 li").removeClass("active"); //Remove any "active" class
+        $(this).addClass("active"); //Add "active" class to selected tab
+        $(".tab_content1").hide(); //Hide all tab content
+        var activeTab = $(this).find("a").attr("href"); //Find the rel attribute value to identify the active tab + content
+        $(activeTab).fadeIn(); //Fade in the active content
+        return false;
+    });
+ 
+});
+</script>
+	 
+	 </head>
+<body>
+     <div class="maincontainer">
+        <div class="div1">
+            <div class="logo">
+                <img src="img/logo.png" class="logoimg" />
+            </div>
+            <div class="logoright">
+                <img src="img/mfilogo.png" class="logorightimg" />
+            </div>
+        </div>
+        <div class="div2">
+            <div class="tabslist">
+
+                <ul class="tabs">
+					<li class="active" rel="tooltip-chart" id="list">
+                        <a href="#tab0">Home</a>
+                    </li>
+                    <li class="" id="list">
+                        <a href="#tab1">Upcoming</a>
+                    </li>
+                    <li class="" id="list">
+                        <a href="#tab2">Released</a>
+                    </li>
+                    <li rel="pie-chart" id="list">
+                        <a href="#tab3">Weekend</a>
+                    </li>
+                    <li class="" id="list">
+                        <a href="#tab4">Franchise</a>
+                    </li>
+					<li class="" id="list">
+                        <a href="#tab5">Comparison</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="div3">
+                <div id="openModal" class="modalDialog">
+        <div>
+            <a href="#" onclick="closeFunc();" title="Close" class="close">X</a>
+          <div class="leftmodal">
+		    <div class="leftmodalinimg">
+		 <img src="img/released/godzilla.jpg" class="leftmodali"/>
+			</div>
+		  <div class="leftmodalin">
+		  <div class="titleleft">Studio:</div>
+		  Warner Bros.</div>
+		 
+		  <div class="leftmodalin">
+		    <div class="titleleft">Genre:</div>
+			Action</div>
+		  <div class="leftmodalin">
+		  <div class="titleleft">Release Date:</div>
+		   05-16-2014
+		  </div>
+		<div href="" class="myButton active-btn" rel="earning">Earning<div class="earningbox">? <div class="appear1">Prediction trend for one year prior to the release date</div></div></div>
+              
+		<div href="" class="myButton" rel="exitPolls">ExitPolls<div class="earningbox1">? <div class="appear2">Location based exit polls reports</div></div></div>
+		<div href="" class="myButton" rel="theatreTrend">Theatre Trend<div class="earningbox2">? <div class="appear3">Movie performance based on the number of theatres</div></div></div>
+		<div href="" class="myButton" rel="social">Social<div class="earningbox3">? <div class="appear4">Movie performance over social media</div></div></div>
+		  </div>
+            <div class="rightmodal" id="rightmodal">
+			
+			
+            </div>
+        </div>
+    </div>
+	   <div id="openModal1" class="modalDialog">
+        <div>
+            <a href="#" onclick="closeFunc1();" title="Close" class="close">X</a>
+           <div class="leftmodal">
+		    <div class="leftmodalinimg">
+		 <img src="img/franchise/xmen.jpg" class="leftmodali"/>
+			</div>
+		  <div class="leftmodalin">
+		  <div class="titleleft">Studio:</div>
+		  Fox Studios.</div>
+		  
+		  <div class="leftmodalin">
+		    <div class="titleleft">Genre:</div>
+			Action</div>
+		
+		  
+		  </div>
+            <div class="rightmodal1" id="rightmodal1">
+            </div>
+          
+        </div>
+    </div>
+            <div class="div3center">
+              
+                <div class="container">
+                    
+                    
+                    <div class="tab_container">
+						<div id="tab0" class="tab_content">
+							<div class="leftcontent">
+							   <div class="leftheading">MENU</div>
+								<div class="box">
+									<div class="heading">
+										Genres 
+									</div>
+									<div class="boxcontent1 genre- ">
+                                    <ul>
+										<li class="boxlist active">All</li>
+                                        <li class="boxlist ">Action</li>
+                                        <li class="boxlist">Animation</li>
+                                        <li class="boxlist">Drama</li>
+                                        <li class="boxlist">Comedy</li>
+                                        <li class="boxlist">Crime</li>
+                                        <li class="boxlist">Fantasy</li>
+                                        <li class="boxlist">Horror</li>
+                                        <li class="boxlist">SciFi</li>
+                                    </ul>
+                                </div>
+
+								</div>
+								<div class="box">
+									<div class="heading">
+										Yearwise 
+									</div>
+									<div class="boxcontent">
+										<ul class="year ">
+											<li class="boxlist" rel="all">All</li>
+											<li class="boxlist" rel="2015">2015</li>
+											<li class="boxlist active" rel="2014">2014</li>
+
+										</ul>
+									</div>
+								</div>
+							
+								<div class="box">
+									<div class="heading">
+										Studio 
+									</div>
+									<div class="boxcontent123">
+										<ul class="studio- ">
+											<select id="studio-dd" class="form-control">
+												<option>Focus Features</option>
+												<option>Independent</option>
+												<option>Lionsgate Entertainment</option>
+												<option>Open Road Films</option>
+												<option>Paramount Pictures</option>
+												<option>Relativity Media</option>
+												<option>Sony Pictures Entertainment</option>
+												<option>The Weinstein Company</option>
+												<option>Twentieth Century Fox Film Corporation</option>
+												<option>Universal Pictures</option>
+												<option>Walt Disney Studios</option>
+												<option>Warner Bros.</option>
+											</select>
+										</ul>
+									</div>
+								</div>
+							 
+							</div>
+							<div class="maincontent">
+								<div id="tooltip-chart-holder">
+								</div>
+							</div>
+						</div>
+						<div id="tab1" class="tab_content">
+                        <div class="leftcontent">
+                           <div class="leftheading">MENU</div>
+                            <div class="box">
+                                <div class="heading">
+                                    Genres  
+                                </div>
+                                <div class="boxcontent13">
+                                    <ul>
+                                        <li class="boxlist">Action</li>
+                                        <li class="boxlist">Animation</li>
+                                        <li class="boxlist">Drama</li>
+                                        <li class="boxlist">Comedy</li>
+                                        <li class="boxlist">Crime</li>
+                                        <li class="boxlist">Fantasy</li>
+                                        <li class="boxlist">Horror</li>
+                                        <li class="boxlist">Scifi</li>
+                                        <li class="boxlist">Thriller</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="box">
+                                <div class="heading">
+                                    Yearwise  
+                                </div>
+                                <div class="boxcontent">
+                                    <ul>
+                                        <li class="boxlist">2016</li>
+                                        <li class="boxlist">2015</li>
+                                        <li class="boxlist">2014</li>
+
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="box">
+                                <div class="heading">
+                                    Studio  
+                                </div>
+                                <div class="boxcontent1">
+                                    <ul>
+                                        <li class="boxlist">A24</li>
+                                        <li class="boxlist">ATO Pictures</li>
+                                        <li class="boxlist">Baxter Brothers Film Releasing</li>
+                                        <li class="boxlist">Big Air Studios</li>
+                                        <li class="boxlist">Brainstorm Media</li>
+                                        <li class="boxlist">Cinedigm</li>
+                                        <li class="boxlist">Cinedigm Entertainment Group</li>
+                                        <li class="boxlist">CNN Films</li>
+                                        <li class="boxlist"> CBS Films</li>
+                                        <li class="boxlist">Dada Films</li>
+                                        <li class="boxlist">Digital Filmz International</li>
+                                        <li class="boxlist">Drafthouse Films</li>
+                                        <li class="boxlist">Entertainment One</li>
+                                        <li class="boxlist">Erbp</li>
+                                        <li class="boxlist">Exclusive Media Group</li>
+                                        <li class="boxlist">Film Arcade</li>
+                                        <li class="boxlist">Film Collective</li>
+                                        <li class="boxlist">FilmBuff</li>
+                                        <li class="boxlist">First Run Features</li>
+                                        <li class="boxlist">Focus Features</li>
+                                        <li class="boxlist"> Freestyle Releasing</li>
+                                        <li class="boxlist">GathrFilms</li>
+                                        <li class="boxlist">Gigapix Releasing</li>
+                                        <li class="boxlist">Gravitas Ventures</li>
+                                        <li class="boxlist">IFC Films</li>
+                                        <li class="boxlist">IFC Midnight</li>
+                                        <li class="boxlist">Image Entertainment</li>
+                                        <li class="boxlist">IMAX</li>
+                                        <li class="boxlist">Indomina Releasing</li>
+                                        <li class="boxlist">International Film Circuit</li>
+                                        <li class="boxlist">Kino Lorber</li>
+                                        <li class="boxlist">Magnet Releasing</li>
+                                        <li class="boxlist">Magnolia Pictures</li>
+                                        <li class="boxlist">Millennium Entertainment</li>
+                                        <li class="boxlist">Millennium Films</li>
+                                        <li class="boxlist">Monterey Media</li>
+                                        <li class="boxlist">Music Box Films</li>
+                                        <li class="boxlist">Omnipulse Entertainment</li>
+                                        <li class="boxlist">Oscilloscope Laboratories</li>
+                                        <li class="boxlist">Oscilloscope Pictures</li>
+                                        <li class="boxlist">Phase 4 Films</li>
+                                        <li class="boxlist">Rocky Mountain Pictures</li>
+                                        <li class="boxlist">Samuel Goldwyn Films</li>
+                                        <li class="boxlist">Starz Digital Media</li>
+                                        <li class="boxlist">Strand Releasing</li>
+                                        <li class="boxlist">Submarine Deluxe</li>
+                                        <li class="boxlist">Sundance Selects</li>
+                                        <li class="boxlist">Syndicado</li>
+                                        <li class="boxlist">Open Road Films</li>
+                                        <li class="boxlist">Paramount Pictures</li>
+                                        <li class="boxlist">Paramount Vantage</li>
+                                        <li class="boxlist">Relativity Media</li>
+                                        <li class="boxlist">Roadside Attractions</li>
+                                        <li class="boxlist">Columbia Pictures</li>
+                                        <li class="boxlist">FilmDistrict</li>
+                                        <li class="boxlist">High Top Releasing</li>
+                                        <li class="boxlist">Screen Gems</li>
+                                        <li class="boxlist">Sony Pictures Classics</li>
+                                        <li class="boxlist">Sony Pictures Releasing</li>
+                                        <li class="boxlist">Stage 6 Films</li>
+                                        <li class="boxlist">TriStar Pictures</li>
+                                        <li class="boxlist">Dimension Films</li>
+                                        <li class="boxlist">Radius-TWC</li>
+                                        <li class="boxlist">The Weinstein Company</li>
+                                        <li class="boxlist">20th Century Fox</li>
+                                        <li class="boxlist">Fox 2000 Pictures</li>
+                                        <li class="boxlist">Fox Searchlight Pictures</li>
+                                        <li class="boxlist">Twentieth Century Fox Film Corporation</li>
+                                        <li class="boxlist">Universal Pictures</li>
+                                        <li class="boxlist">Disneynature</li>
+                                        <li class="boxlist">Touchstone Pictures</li>
+                                        <li class="boxlist">Walt Disney Pictures</li>
+                                        <li class="boxlist">Walt Disney Studios Motion Pictures</li>
+                                        <li class="boxlist">New Line Cinema</li>
+                                        <li class="boxlist">Warner Bros.</li>
+                                        <li class="boxlist">The Bubble Factory</li>
+                                        <li class="boxlist">The Vladar Company</li>
+                                        <li class="boxlist">Tribeca Film</li>
+                                        <li class="boxlist">Variance Films</li>
+                                        <li class="boxlist">VH1 Television</li>
+                                        <li class="boxlist">Virgil Films & Entertainment</li>
+                                        <li class="boxlist">Well Go USA Entertainment</li>
+                                        <li class="boxlist">Zeitgeist Films</li>
+                                        <li class="boxlist">Zelig Films Distribution</li>
+                                        <li class="boxlist">Zipporah Films</li>
+                                        <li class="boxlist">Lionsgate</li>
+                                        <li class="boxlist">Pantelion Films</li>
+                                        <li class="boxlist">Summit Entertainment</li>
+                                        <li class="boxlist">Open Road Films</li>
+                                        <li class="boxlist">LD Entertainment</li>
+                                        <li class="boxlist">Abramorama</li>
+                                        <li class="boxlist">AFFRM</li>
+                                        <li class="boxlist">Anchor Bay Films</li>
+                                        <li class="boxlist">Anderson Digital</li>
+                                        <li class="boxlist">Annapurna Pictures</li>
+                                        <li class="boxlist">ARC Entertainment (II)</li>
+                                        <li class="boxlist">Area 23a</li>
+                                        <li class="boxlist">Argot Pictures</li>
+                                    </ul>
+                                </div>
+                            </div>
+                         
+                        </div>
+                        <div class="maincontent">
+
+                          
+                              		<div class="onethird">
+										
+                                        <div align="center">
+                                          <div style="color:#FFFFFF;">Comedy</div>
+                                        <img src="img/upcoming/tammy.jpg" class="filmimg" />
+                                        <div class="filmtitle">Tammy</div>
+										</div>
+                                        <div class="filmdesc">
+											<div class="filmdescleft">
+												67<img src="img/green.png">
+												
+											</div>
+											<div class="filmdescright">
+											<img src="img/r.jpg">
+											</div>
+										</div>
+
+                                    
+                                </div>
+                            
+                                <div class="onethird">
+                                    <div align="center">
+                                        <div style="color:#FFFFFF;">Horror</div>
+                                        <img src="img/upcoming/deliver.jpg" class="filmimg" />
+                                        <div class="filmtitle">Deliver Us from Evil</div>
+										 </div>
+                                        <div class="filmdesc">
+											<div class="filmdescleft">
+												20<img src="img/green.png">
+												
+											</div>
+										<div class="filmdescright">
+											<img src="img/r.jpg">
+											</div>
+										</div>
+
+                                   
+                                </div>
+                                <div class="onethird">
+                                    <div align="center">
+                                        <div style="color:#FFFFFF;">Drama</div>
+                                        <img src="img/upcoming/earthtoecho.jpg" class="filmimg" />
+                                        <div class="filmtitle">Earth to Echo
+</div>
+										 </div>
+                                        <div class="filmdesc">
+											<div class="filmdescleft">
+												30<img src="img/red.png">
+												
+											</div>
+											<div class="filmdescright">
+											<img src="img/pg.jpg">
+											</div>
+										</div>
+
+                                   
+                                </div>
+                                <div class="onethird">
+                                    <div align="center">
+                                        <div style="color:#FFFFFF;">Drama</div>
+                                        <img src="img/upcoming/boyhood.jpg" class="filmimg" />
+                                        <div class="filmtitle">Boyhood</div>
+									</div>
+                                        <div class="filmdesc">
+											<div class="filmdescleft">
+												20<img src="img/green.png">
+												
+											</div>
+											<div class="filmdescright">
+											<img src="img/r.jpg">
+											</div>
+										</div>
+
+                                    
+                                </div>
+                                <div class="onethird">
+                                    <div align="center">
+                                         <div style="color:#FFFFFF;">Drama</div>
+                                        <img src="img/upcoming/andso.jpg" class="filmimg" />
+                                        <div class="filmtitle">And So It Goes</div>
+									 </div>
+                                        <div class="filmdesc">
+											<div class="filmdescleft">
+												37<img src="img/green.png">
+												
+											</div>
+												<div class="filmdescright">
+											<img src="img/pg13.jpg">
+											</div>
+										</div>
+
+                                   
+                                </div>
+                                <div class="onethird">
+                                    <div align="center">
+                                         <div style="color:#FFFFFF;">Thriller</div>
+                                        <img src="img/upcoming/transformersaoe.jpg" class="filmimg" />
+                                        <div class="filmtitle">The Purge: Anarchy</div>
+										<div class="filmdescright">
+											<img src="img/pg13.jpg">
+											</div>
+									</div>
+                                        <div class="filmdesc">
+											<div class="filmdescleft">
+												98<img src="img/green.png">
+												
+											</div>
+											
+										</div>
+
+                                    
+                                </div>
+
+
+
+</div>   
+                        
+
+
+                        </div>
+                        <div id="tab2" class="tab_content">
+                            <div class="leftcontent">
+                                <div class="leftheading">MENU</div>
+                                <div class="box">
+                                    <div class="heading">
+                                        Genres  
+                                    </div>
+                                    <div class="boxcontent13">
+                                        <ul>
+                                            <li class="boxlist">Action</li>
+                                            <li class="boxlist">Animation</li>
+                                            <li class="boxlist">Drama</li>
+                                            <li class="boxlist">Comedy</li>
+                                            <li class="boxlist">Crime</li>
+                                            <li class="boxlist">Fantasy</li>
+                                            <li class="boxlist">Horror</li>
+                                            <li class="boxlist">Scifi</li>
+                                            <li class="boxlist">Thriller</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="box">
+                                    <div class="heading">
+                                        Yearwise  
+                                    </div>
+                                    <div class="boxcontent">
+                                        <ul>
+                                            <li class="boxlist"> 2014</li>
+                                            <li class="boxlist">2013</li>
+                                            <li class="boxlist">2012</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="box">
+                                    <div class="heading">
+                                        Franchise  
+                                    </div>
+                                    <div class="boxcontent1">
+                                        <ul>
+                                            <li class="boxlist">A24</li>
+                                            <li class="boxlist">ATO Pictures</li>
+                                            <li class="boxlist">Baxter Brothers Film Releasing</li>
+                                            <li class="boxlist">Big Air Studios</li>
+                                            <li class="boxlist">Brainstorm Media</li>
+                                            <li class="boxlist">Cinedigm</li>
+                                            <li class="boxlist">Cinedigm Entertainment Group</li>
+                                            <li class="boxlist">CNN Films</li>
+                                            <li class="boxlist"> CBS Films</li>
+                                            <li class="boxlist">Dada Films</li>
+                                            <li class="boxlist">Digital Filmz International</li>
+                                            <li class="boxlist">Drafthouse Films</li>
+                                            <li class="boxlist">Entertainment One</li>
+                                            <li class="boxlist">Erbp</li>
+                                            <li class="boxlist">Exclusive Media Group</li>
+                                            <li class="boxlist">Film Arcade</li>
+                                            <li class="boxlist">Film Collective</li>
+                                            <li class="boxlist">FilmBuff</li>
+                                            <li class="boxlist">First Run Features</li>
+                                            <li class="boxlist">Focus Features</li>
+                                            <li class="boxlist"> Freestyle Releasing</li>
+                                            <li class="boxlist">GathrFilms</li>
+                                            <li class="boxlist">Gigapix Releasing</li>
+                                            <li class="boxlist">Gravitas Ventures</li>
+                                            <li class="boxlist">IFC Films</li>
+                                            <li class="boxlist">IFC Midnight</li>
+                                            <li class="boxlist">Image Entertainment</li>
+                                            <li class="boxlist">IMAX</li>
+                                            <li class="boxlist">Indomina Releasing</li>
+                                            <li class="boxlist">International Film Circuit</li>
+                                            <li class="boxlist">Kino Lorber</li>
+                                            <li class="boxlist">Magnet Releasing</li>
+                                            <li class="boxlist">Magnolia Pictures</li>
+                                            <li class="boxlist">Millennium Entertainment</li>
+                                            <li class="boxlist">Millennium Films</li>
+                                            <li class="boxlist">Monterey Media</li>
+                                            <li class="boxlist">Music Box Films</li>
+                                            <li class="boxlist">Omnipulse Entertainment</li>
+                                            <li class="boxlist">Oscilloscope Laboratories</li>
+                                            <li class="boxlist">Oscilloscope Pictures</li>
+                                            <li class="boxlist">Phase 4 Films</li>
+                                            <li class="boxlist">Rocky Mountain Pictures</li>
+                                            <li class="boxlist">Samuel Goldwyn Films</li>
+                                            <li class="boxlist">Starz Digital Media</li>
+                                            <li class="boxlist">Strand Releasing</li>
+                                            <li class="boxlist">Submarine Deluxe</li>
+                                            <li class="boxlist">Sundance Selects</li>
+                                            <li class="boxlist">Syndicado</li>
+                                            <li class="boxlist">Open Road Films</li>
+                                            <li class="boxlist">Paramount Pictures</li>
+                                            <li class="boxlist">Paramount Vantage</li>
+                                            <li class="boxlist">Relativity Media</li>
+                                            <li class="boxlist">Roadside Attractions</li>
+                                            <li class="boxlist">Columbia Pictures</li>
+                                            <li class="boxlist">FilmDistrict</li>
+                                            <li class="boxlist">High Top Releasing</li>
+                                            <li class="boxlist">Screen Gems</li>
+                                            <li class="boxlist">Sony Pictures Classics</li>
+                                            <li class="boxlist">Sony Pictures Releasing</li>
+                                            <li class="boxlist">Stage 6 Films</li>
+                                            <li class="boxlist">TriStar Pictures</li>
+                                            <li class="boxlist">Dimension Films</li>
+                                            <li class="boxlist">Radius-TWC</li>
+                                            <li class="boxlist">The Weinstein Company</li>
+                                            <li class="boxlist">20th Century Fox</li>
+                                            <li class="boxlist">Fox 2000 Pictures</li>
+                                            <li class="boxlist">Fox Searchlight Pictures</li>
+                                            <li class="boxlist">Twentieth Century Fox Film Corporation</li>
+                                            <li class="boxlist">Universal Pictures</li>
+                                            <li class="boxlist">Disneynature</li>
+                                            <li class="boxlist">Touchstone Pictures</li>
+                                            <li class="boxlist">Walt Disney Pictures</li>
+                                            <li class="boxlist">Walt Disney Studios Motion Pictures</li>
+                                            <li class="boxlist">New Line Cinema</li>
+                                            <li class="boxlist">Warner Bros.</li>
+                                            <li class="boxlist">The Bubble Factory</li>
+                                            <li class="boxlist">The Vladar Company</li>
+                                            <li class="boxlist">Tribeca Film</li>
+                                            <li class="boxlist">Variance Films</li>
+                                            <li class="boxlist">VH1 Television</li>
+                                            <li class="boxlist">Virgil Films & Entertainment</li>
+                                            <li class="boxlist">Well Go USA Entertainment</li>
+                                            <li class="boxlist">Zeitgeist Films</li>
+                                            <li class="boxlist">Zelig Films Distribution</li>
+                                            <li class="boxlist">Zipporah Films</li>
+                                            <li class="boxlist">Lionsgate</li>
+                                            <li class="boxlist">Pantelion Films</li>
+                                            <li class="boxlist">Summit Entertainment</li>
+                                            <li class="boxlist">Open Road Films</li>
+                                            <li class="boxlist">LD Entertainment</li>
+                                            <li class="boxlist">Abramorama</li>
+                                            <li class="boxlist">AFFRM</li>
+                                            <li class="boxlist">Anchor Bay Films</li>
+                                            <li class="boxlist">Anderson Digital</li>
+                                            <li class="boxlist">Annapurna Pictures</li>
+                                            <li class="boxlist">ARC Entertainment (II)</li>
+                                            <li class="boxlist">Area 23a</li>
+                                            <li class="boxlist">Argot Pictures</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="maincontent">
+ <a href="#openModal" onclick="loadChart();">
+                                  <div class="onethird">
+                                    <div align="center">
+                                        <div style="color:#FFFFFF;">Thriller</div>
+                                        <img src="img/released/godzilla.jpg" class="filmimg" />
+                                        <div class="filmtitle">Godzilla</div>
+                                        <div class="filmdesc"> </div>
+                                    </div>
+                                </div>
+								</a>
+                                <div class="onethird">
+                                    <div align="center">
+                                        <div style="color:#FFFFFF;">Comedy</div>
+                                        <img src="img/released/neighbors.jpg" class="filmimg" />
+                                        <div class="filmtitle">Neighbors</div>
+                                        <div class="filmdesc"></div>
+
+                                    </div>
+                                </div>
+                                <div class="onethird">
+                                    <div align="center">
+                                        <div style="color:#FFFFFF;">Action</div>
+                                        <img src="img/released/spiderman2.jpg" class="filmimg" />
+                                        <div class="filmtitle">The Amazing Spider-Man 2</div>
+                                        <div class="filmdesc"></div>
+
+                                    </div>
+                                </div>
+                                <div class="onethird">
+                                    <div align="center">
+                                        <div style="color:#FFFFFF;">Drama</div>
+                                        <img src="img/released/milliondollararm.jpg" class="filmimg" />
+                                        <div class="filmtitle">Million Dollar Arm</div>
+                                        <div class="filmdesc"> </div>
+
+                                    </div>
+                                </div>
+                                <div class="onethird">
+                                    <div align="center">
+                                        <div style="color:#FFFFFF;">Romance</div>
+                                        <img src="img/released/otherwoman.jpg" class="filmimg" />
+                                        <div class="filmtitle">The Other Woman </div>
+                                        <div class="filmdesc"></div>
+
+                                    </div>
+                                </div>
+                                <div class="onethird">
+                                    <div align="center">
+                                        <div style="color:#FFFFFF;">Sci-Fi</div>
+                                        <img src="img/released/captainamerica.jpg" class="filmimg" />
+                                        <div class="filmtitle">Captain America: The Winter Soldier</div>
+                                        <div class="filmdesc"></div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+
+                        </div>
+                        <div id="tab3" class="tab_content">
+                            <div class="leftcontent">
+                                <div class="leftheading">MENU</div>
+                                <div class="box">
+                                    <div class="heading">
+                                        Genres  
+                                    </div>
+                                    <div class="boxcontent1">
+                                        <ul>
+                                            <li class="boxlist">Action</li>
+                                            <li class="boxlist">Animation</li>
+                                            <li class="boxlist">Drama</li>
+                                            <li class="boxlist">Comedy</li>
+                                            <li class="boxlist">Crime</li>
+                                            <li class="boxlist">Fantasy</li>
+                                            <li class="boxlist">Horror</li>
+                                            <li class="boxlist">Scifi</li>
+                                            <li class="boxlist">Thriller</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="box">
+                                    <div class="heading">
+                                        Yearwise  
+                                    </div>
+                                    <div class="boxcontent">
+                                        <ul>
+                                            <li class="boxlist"> 2014</li>
+                                            <li class="boxlist">2013</li>
+                                            <li class="boxlist">2012</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="box">
+                                    <div class="heading">
+                                        Week-wise  
+                                    </div>
+                                    <div class="boxcontent12">
+                                        <ul>
+                                            <li class="boxlist"  descriptionId="nikoncamera-descriptionid" onclick="javascript:hideShow(event)" style="cursor:pointer;">February</li>
+												<ul id="nikoncamera-descriptionid" class="selectedlist">
+													<li class="boxlist">Week1</li>
+													<li class="boxlist1" style="cursor:pointer;" >Week2</li>
+													<li class="boxlist">Week3</li>
+													<li class="boxlist">Week4</li>
+												</ul>
+											<li class="boxlist">March</li>
+											<li class="boxlist">April</li>
+											<li class="boxlist">May</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="maincontent1" id="maincontent1" style="padding-top:100px">
+			
+							
+       
+                                
+
+                            </div>
+
+
+
+                        </div><div id="tab4" class="tab_content">
+    <div class="leftcontent">
+        <div class="leftheading">MENU</div>
+        <div class="box">
+            <div class="heading">
+                Genres  
+            </div>
+            <div class="boxcontent13">
+                <ul>
+                    <li class="boxlist">Action</li>
+                    <li class="boxlist">Animation</li>
+                    <li class="boxlist">Drama</li>
+                    <li class="boxlist">Comedy</li>
+                    <li class="boxlist">Crime</li>
+                    <li class="boxlist">Fantasy</li>
+                    <li class="boxlist">Horror</li>
+                    <li class="boxlist">Scifi</li>
+                    <li class="boxlist">Thriller</li>
+                </ul>
+            </div>
+        </div>
+        <div class="box">
+            <div class="heading">
+                Yearwise  
+            </div>
+            <div class="boxcontent">
+                <ul>
+                    <li class="boxlist">2014</li>
+                    <li class="boxlist">2013</li>
+					<li class="boxlist">2012</li>
+                </ul>
+            </div>
+        </div>
+
+<!--        <div class="box">
+            <div class="heading">
+                Franchise  
+            </div>
+            <div class="boxcontent1">
+                <ul>
+                   <li class="boxlist">Bourne</li>
+				   <li class="boxlist">Fast & the Furious</li>
+				   <li class="boxlist">Marvel</li>
+	               <li class="boxlist">Planet of the Apes</li>
+				   <li class="boxlist">Pirates of the Carribean</li> 
+				   <li class="boxlist">Terminator</li>
+				   <li class="boxlist">X-Men</li> 
+                </ul>
+            </div>
+        </div>
+-->
+    </div>
+    <div class="maincontent">
+ <a href="#openModal1" onclick="loadChart1();">
+        <div class="onethird">
+            <div align="center">
+                <div style="color:#FFFFFF;">Action</div>
+                <img src="img/franchise/xmen.jpg" class="filmimg" />
+                <div class="filmtitle">X-Men</div>
+                <div class="filmdesc"> </div>
+
+            </div>
+        </div>
+		</a>
+        <div class="onethird">
+            <div align="center">
+                <div style="color:#FFFFFF;">Fantasy</div>
+                <img src="img/franchise/poc.jpg" class="filmimg" />
+                <div class="filmtitle">Pirates of the Caribbean</div>
+                <div class="filmdesc"> </div>
+
+            </div>
+        </div>
+        <div class="onethird">
+            <div align="center">
+                <div style="color:#FFFFFF;">Action</div>
+                <img src="img/franchise/bourne.jpg" class="filmimg" />
+                <div class="filmtitle">Bourne</div>
+                <div class="filmdesc"></div>
+
+            </div>
+        </div>
+        <div class="onethird">
+            <div align="center">
+                <div style="color:#FFFFFF;">Action</div>
+                <img src="img/franchise/fnf.jpg" class="filmimg" />
+                <div class="filmtitle">Fast & Furious</div>
+                <div class="filmdesc"></div>
+
+            </div>
+        </div>
+        <div class="onethird">
+            <div align="center">
+                <div style="color:#FFFFFF;">Action</div>
+                <img src="img/franchise/dawn.jpg" class="filmimg" />
+                <div class="filmtitle">Dawn</div>
+                <div class="filmdesc"></div>
+
+            </div>
+        </div>
+        <div class="onethird">
+            <div align="center">
+                <div style="color:#FFFFFF;">Fantasy</div>
+                <img src="img/franchise/marvel.jpg" class="filmimg" />
+                <div class="filmtitle">Marvel</div>
+                <div class="filmdesc"></div>
+
+            </div>
+        </div>
+
+
+    </div>
+
+
+
+</div>
+
+
+<div id="tab5" class="tab_content">
+  <div class="container1">
+  <ul class="tabs1">
+                       <li class="" id="list"><a href="#tab7">Holiday-Weekend</a></li>
+                    <li class="" id="list"><a href="#tab8" onclick="multilineChart();">Compare Movies</a></li>
+  <div class="tabsgap"></div>
+  </ul>
+  
+  <div class="tab_container1">
+    <div id="tab7" class="tab_content1">
+		  <div class="maincontentfull">
+		<div class="maincontentfullleft" id="maincontentfullleft">
+			
+			<select  id="leftselect" onchange="changeSelect()"style="margin-left:10px; margin-top:10px;">
+				  <option value="memorial">Memorial Day</option>
+				 
+			</select> 
+			<br />	<br />
+			<img src="img/memday.jpg" class="wkend"/><div class="weekend">Memorials Day</div>
+			<br />
+			<br/>
+			<div id="maincontentfullleftchart" class="maincontentchart">
+			
+			
+			</div>
+		</div>
+		<div class="maincontentfullright" id="maincontentfullright">
+    
+			<select id="rightselect" onchange="changeSelect1()" style="margin-left:10px; margin-top:10px;">
+				  <option value="christmas">Christmas Day</option>
+				  
+			</select> 
+			<br />	<br />
+			<img src="img/christmas.jpg" class="wkend"/><div class="weekend">Christmas Day</div>
+				<br />
+				<br />	
+			
+		<div id="maincontentfullrightchart" class="maincontentchart" >		</div>
+	
+	</div>
+	</div>
+	</div>
+	 <div id="tab8" class="tab_content1">
+		  <div class="maincontentfull1">
+<select  id="leftselect1" onchange="changeSelect()">
+				  <option value="memorial">Ted</option>
+				 
+			</select> 
+			<select id="rightselect1" onchange="changeSelect1()">
+				  <option value="christmas">Neighbors</option>
+				  
+			</select> 
+			
+				
+	<div class="multilinechart comparemovies" id="multilinechart">
+			
+		  </div>
+		  <br /><br />
+			<div style="width:100%;"> <div style="float:left;padding-left:10px;" class="lefttitle">TED</div>
+			<div style="float:left;padding-left:10px;" class="righttitle">NEIGHBORS</div></div>
+			<br />
+		<div class="maincontentfullleft1" id="maincontentfullleft1" style="background:FFFFFF;">
+			<div style="float:left;">
+			<div id="maincontentfullleftchart1" class="maincontentfullleftchart1 maincontentchart1 comparemovies">
+			
+			
+			</div>
+		</div>
+		</div>
+		<div class="maincontentfullright1" id="maincontentfullright1">
+			
+			<div style="float:left;">						
+		<div id="maincontentfullrightchart1" class="maincontentfullrightchart1 comparemovies" >		</div>
+	</div>
+	
+    </div>
+  </div>
+    </div>
+
+  </div>
+</div>
+  
+	
+	
+
+
+
+</div>
+
+
+
+                    </div>
+
+                </div>
+            </div>
+     
+        </div>
+        <div class="div4">
+
+            <div class="logo2">
+                <img src="img/footerlogo.png" class="logo2img" />
+            </div>
+            <div class="logoright2">
+                TMS Copyrights 2014 All Rights Reserved
+            </div>
+
+        </div>
+
+        <div class="div5">
+            Sorry No display for these layout please
+        </div>
+
+
+    </div>
+	
+
+</body>
+</html>

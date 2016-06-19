@@ -1,0 +1,104 @@
+{
+ "status":"success",
+  "data": {
+    "metaData": {
+      "chart": {
+		"type":"pie",
+        "height": 500,
+		"marginTop":100,
+		"marginBottom":50
+      },
+      "title": {
+        "text": ""
+      },
+      "subtitle": {
+        "text": ""
+      },
+      "xAxis": {
+        "categories": true
+      },
+      "drilldown": {
+        
+      },
+      "yAxis": {
+        "title": {
+          "text": "Number of Employees"
+        }
+      },
+      "legend": {
+        "enabled": false
+      },
+      "plotOptions": {
+        "series": {
+          "pointWidth": 5,
+          "pointPadding": 0,
+          "groupPadding": 0,
+          "dataLabels": {
+            "enabled": true
+          },
+          "point": {
+            "events": {
+              
+            }
+          },
+          "shadow": false
+        },
+        "pie": {
+          "size": "100%"
+        }
+      },
+      "tooltip": {
+        "headerFormat": "<span style=\"font-size:11px\">{series.name}</span><br>",
+        "pointFormat": "<span style=\"color:{point.color}\">{point.name}</span>: <b>${point.y:.0f}</b> million<br/>"
+      },
+      "series": [
+        {
+          "name": "Genre",
+          "colorByPoint": true,
+          "data": [
+            
+          ]
+        }
+      ]
+    },
+    "seriesData": [
+      {
+        "name": "Animation",
+        "y": 69,
+        "drilldown": "The Lego Movie"
+      },
+      {
+        "name": "Drama",
+        "y": 22,
+        "drilldown": "Drama"
+      },
+      {
+        "name": "Fantasy",
+        "y": 8,
+        "drilldown": "Fantasy"
+      }
+
+    ],
+    "drillDownData": {
+      "series": [
+        {
+          "id": "Drama",
+          "name": "Drama",
+          "data": [22
+          ]
+        },
+        {
+          "id": "The Lego Movie",
+          "name": "The Lego Movie",
+          "data": [26]          
+        },
+        {
+          "id": "Fantasy",
+          "name": "Fantasy",
+          "data": [8
+          ]
+        }
+        ]
+    }
+  }
+}

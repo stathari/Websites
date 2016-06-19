@@ -1,0 +1,307 @@
+body{
+	margin:0;
+	padding:0;
+}
+a{
+	text-decoration: none;
+	color:#FFFFFF;
+}
+a:hover, a:focus, a:visited, a:selection{
+	text-decoration: none;
+	color:#FFFFFF;
+}
+.toprigid{
+	background-color:#EBEBEB;
+	height:70px;
+	position:relative;
+	width:100%;
+	margin-bottom:5px;
+}
+.toprigid1{
+	background-color:#EBEBEB;
+	height:30px;
+	position:relative;
+	width:75%;
+	margin-bottom:5px;
+}
+
+.boxlayout{
+    width:23.75%;
+    margin-left:1%;
+    float:left;
+    height:360px;
+    margin-top:10px;
+    background-color: #FFFFFF;
+}
+.boxlayout:hover{
+  box-sizing:border-box;
+  -moz-box-sizing:border-box;
+  -webkit-box-sizing:border-box;
+  border:1px solid #3CA9AA;
+  cursor:pointer;}
+.imagebox{
+    width:95%;
+    height:340px;
+    margin-left:2.5%;
+    margin-top:10px;
+}
+.sideoptions{
+	width:8%;
+	height:1100px;
+	float:left;
+	background:#292C30;
+	margin-left:1%;
+	
+}
+.sideoptions1{
+	width:8%;
+	height:1300px;
+	float:left;
+	background:#292C30;
+	margin-left:1%;
+	
+}
+.sideoptions2{
+	width:8%;
+	height:1505px;
+	float:left;
+	background:#292C30;
+	margin-left:1%;
+	
+}
+.content{
+	width:90%;
+	background:#F1F1F1;
+	height:1100px;
+	margin-bottom:10px;
+	float:left;
+}
+.content1{
+	width:90%;
+	background:#F1F1F1;
+	height:1320px;
+	margin-bottom:10px;
+	float:left;
+}
+.content2{
+	width:90%;
+	background:#F1F1F1;
+	height:1495px;
+	margin-bottom:10px;
+	float:left;
+}
+.topleft{
+	float:left;
+	margin-left:8%;
+	padding-top:10px;
+}
+.topright{
+	float:right;
+	width:auto;
+	margin-top:20px;
+	margin-right:7%;
+	height:30px;
+	background-color: #353A3E;
+	font-size:16px;
+}
+
+.toprightbar{
+	float:right;
+	width:auto;
+	margin-top:2px;
+	margin-right:5%;
+	height:25px;
+	background-color: #F1F1F1;
+	font-size:16px;
+}
+ul
+{
+    font-family: Arial, Verdana;
+    font-size: 14px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+ul li
+{
+    display: block;
+    position: relative;
+    float: left;
+	width:140px;
+	font-size:16px;
+}
+
+li ul
+{
+    display: none;
+}
+
+ul li a 
+{
+    display: block;
+    text-decoration: none;
+    color: #ffffff;
+    padding: 5px 15px 5px 15px;
+    background: #353A3E;
+    margin-left: 1px;
+    white-space: nowrap;
+	font-size:14px;
+}
+
+ul li a:hover 
+{
+    background: #353A3E;
+}
+li:hover ul 
+{
+    display: block;
+    position: absolute;
+}
+
+li:hover li
+{
+    float: none;
+    font-size: 11px;
+}
+
+li:hover a 
+{
+    background: #353A3E;
+}
+
+li:hover li a:hover 
+{
+    background: #000000;
+}
+
+.footer{
+	height:40px;
+	background:#353432;
+	float:left;
+	width:100%;
+	color:#6A6554;
+}
+.copyright{
+	padding-top:10px;
+	float:right;
+	margin-right:7%;
+}
+
+/*menu links*/
+.menulinks{
+width:65%;
+padding:20px;
+height:60px;
+border-bottom:1px solid #454A50;
+text-align:center;
+}
+.menulinks:hover{
+background:#454A50;
+}
+.menulinksactive{
+width:65%;
+padding:20px;
+height:60px;
+border-bottom:1px solid #454A50;
+background:#454A50;
+text-align:center;
+}
+
+
+/*end of menu links*/
+.area_chart{
+	width:98%;
+	height:350px;
+	background:#FFFFFF;
+	margin-left:1%;
+	margin-top:10px;
+	padding-top:3px;
+	border:2px solid #92CFD0;
+	border-radius:7px;
+}
+.area_chart1{
+	width:98%;
+	height:540px;
+	background:#FFFFFF;
+	margin-left:1%;
+	margin-top:10px;
+	padding-top:3px;
+	border:2px solid #92CFD0;
+	border-radius:7px;
+}
+.areachart{
+	width:800px;
+	height:325px;
+	background:#FFFFFF;
+	margin-left:1%;
+	margin-top:10px;
+	border:0px solid #92CFD0;
+	float:left;
+}
+.areachart1{
+	width:600px;
+	height:325px;
+	background:#FFFFFF;
+	margin-left:1%;
+	margin-top:10px;
+	border:0px solid #92CFD0;
+	float:left;
+}
+.area_chart_details{
+	width:29%;
+	float:left;
+}
+.areachartdetails{
+	width:98%;
+	margin-left:5%;
+	margin-top:20px; 
+	font-size:18px;
+	font-family:Tahoma;
+	color:#FF4A24;
+	text-align:center;
+}
+.areachartdetails1{
+	width:98%;
+	margin-left:5%;
+	margin-top:20px; 
+	font-size:18px;
+	font-family:Tahoma;
+	color:#2CA753;
+	text-align:center;
+}
+.areachartdetails2{
+	width:98%;
+	margin-left:5%;
+	margin-top:20px; 
+	font-size:18px;
+	font-family:Tahoma;
+	color:#4992C9;
+	text-align:center;
+}
+.areachartdetails_sub{
+	width:98%;
+	margin-top:100px; 
+	font-size:16px;
+	font-family:Tahoma;
+	color:#959595;
+	text-align:center;
+	height:96px;
+	border-bottom:1px solid #959595;
+	margin-left:5%;
+}
+.description{
+	width:98%;
+	margin-top:20px; 
+	font-size:14px;
+	font-family:Tahoma;
+	color:#959595;
+	text-align:center;
+}
+.contenttable{
+	width:200px;
+	color:
+}
+.lefttable{
+	width:100px;
+}

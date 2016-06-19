@@ -1,0 +1,260 @@
+<html>
+<head>
+    <title>Retail </title>
+	<link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
+	<link rel="stylesheet" href="css/products.css">
+	<link rel="stylesheet" href="css/magicsuggest.css">
+	 <link rel="stylesheet" href="js/prettify/prettify.css">
+
+	 <script src="js/jquery-1.11.1.min.js"></script>
+	<link href="js/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="bootstrap.js"></script>
+	<script src="js/d3.v2.min.js"></script>
+	<script src="js/d3.min.js"></script>
+	<script src="js/dimple.v2.0.0.min.js"></script>
+	<script src="js/hierarchical-pie.js"></script>
+	<script src="js/d3.tip.v0.6.3.js"></script>
+	<script type="text/javascript" src="js/highcharts/highcharts.js"></script>
+	<script type="text/javascript" src="js/highcharts/drilldown-multiseries.js"></script> 
+	<script type="text/javascript" src="js/app-charts/custom-charts.js"></script> 
+	<script type="text/javascript" src="js/magicsuggest-min.js"></script>
+	<script type="text/javascript" src="data/histograms.js"></script>
+	<style>
+		 .axis path, .axis line {
+        fill: none;
+        stroke: #121401;
+        stroke-width: 3px;
+        shape-rendering: crispEdges;
+      }
+      .point {
+        stroke: grey;
+        stroke-width: 3px;
+        opacity: 0;
+      }
+      .point:hover{
+        opacity: .5;
+      }
+	  form {
+	  position: absolute;
+	  right: 10px;
+	  top: 10px;
+	}
+	</style>
+    <script type="text/javascript">
+	$(document).ready(function(){
+	 $('#linechart').empty();
+			 loadLineChart('linechart');
+	$('#donutchart').empty();
+		loadDonutChart();
+	 return;	
+	
+	});
+		
+$(function () {
+var dynamicWidth = $("#barchart").width();
+        $('#barchart').highcharts({
+            chart: {
+                type: 'column',
+				height: 300,
+				width: dynamicWidth
+				
+            },
+            title: {
+                text: 'Price'
+            },
+            subtitle: {
+                text: ''
+            },
+            xAxis: {
+                categories: [ '3.19', '3.29', '3.39','3.49','3.49','3.59','3.69','3.79','3.89','3.99','4.09','4.19','4.29','4.39','4.49','4.59','4.69','4.79','4.89','4.99','5.09','5.19'],
+                title: {
+                    text: null
+                }
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Sales ',
+                    align: 'high'
+                },
+                labels: {
+                    overflow: 'justify'
+                }
+            },
+            tooltip: {
+                valueSuffix: 'units'
+            },
+            plotOptions: {
+                bar: {
+                    dataLabels: {
+                        enabled: true
+                    }
+                }
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'top',
+                x: -20,
+                y: 80,
+                floating: true,
+                borderWidth: 0.5,
+                backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor || '#FFFFFF'),
+                shadow: false
+            },
+            credits: {
+                enabled: false
+            },
+            series: [{
+                name: 'Year 2013',
+                data: [3,5.1,7,2.6,3,8,9,3.2,4,5.3,2.7,4.6,6.3,4,5.2,3.9,4.8,6,5,4,6.7]
+            }]
+        });
+    });
+	function loadDonutChart() {
+	var dataset = {
+  Mach: [2,5,3],
+		};
+
+		var width = 500,
+			height = 340,
+			radius = Math.min(width, height) / 2;
+
+		var color = d3.scale.category20();
+
+		var pie = d3.layout.pie()
+			.sort(null);
+
+		var arc = d3.svg.arc()
+			.innerRadius(radius - 60)
+			.outerRadius(radius - 20);
+
+		var svg = d3.select("#donutchart").append("svg")
+			.attr("width", width)
+			.attr("height", height)
+			.append("g")
+			.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+		var path = svg.selectAll("path")
+			.data(pie(dataset.Mach))
+		  .enter().append("path")
+			.attr("fill", function(d, i) { return color(i); })
+			.attr("d", arc);
+}
+	</script>
+	 
+</head>
+<body>
+
+	<div class="toprigid">
+		<div class="topleft"> 
+			<img src="images/logo.png" />
+		</div>
+		<div class="topright">
+			<ul id="menu">
+				<li><a href="">John Karter</a>
+					<ul>
+						<li><a href="">Profile</a></li>
+						<li><a href="">Settings</a></li>
+						<li><a href="">Logout</a></li>
+					</ul>
+				</li>
+     		</ul>
+		</div>
+	</div>
+	<div class="sideoptions">
+		<a href="main.html"><div class="menulinks" align="center">
+			<img src="images/menu/home.png" alt="Products Home Page"/>
+		</div>
+		</a>
+			<a href="productdetails.html"><div class="menulinks" align="center">
+			<img src="images/menu/product.png" alt="Products Home Page"/>
+		</div>
+		</a>
+			<a href="graphs.html"><div class="menulinksactive" align="center">
+			<img src="images/menu/charts.png" alt="Products Home Page"/>
+		</div>
+		</a>
+			<a href="social.html"><div class="menulinks" align="center">
+			<img src="images/menu/share.png" alt="Products Home Page"/>
+		</div>
+		</a>
+			<a href="#"><div class="menulinks" align="center">
+			<img src="images/menu/compare.png" alt="Products Home Page"/>
+		</div>
+		</a>
+		<a href="#"><div class="menulinks" align="center">
+			<img src="images/menu/setting.png" alt="Products Home Page"/>
+		</div>
+		</a>
+	</div>
+	<div class="content">
+		<div class="area_chart">
+			<div class="areachart" id="linechart">
+			
+			</div>
+			<div class="area_chart_details">
+				
+				<div class="areachartdetails">Overall Sales</div>
+				<div class="areachartdetails_sub">
+					Sales Predictions
+					<br /><br />
+					19,342
+				
+				</div>
+				<div class="description">
+				5.24% increase from last month
+				</div>
+			</div>
+		</div>
+		<div class="area_chart">
+			<div class="area_chart_details">
+				
+				<div class="areachartdetails1"  style="font-color:#2CA753;">Optimum Price</div>
+				<div class="areachartdetails_sub">
+					Optimum Price
+					<br /><br />
+					3.89
+				
+				</div>
+				<div class="description">
+				0.22% increase from last month
+				</div>
+			</div>
+			<div class="areachart" id="barchart">
+			
+			</div>
+			
+		</div>
+		<div class="area_chart">
+			<div class="areachart1" id="donutchart">
+			
+			</div>
+			<div class="area_chart_details">
+			<div class="areachartdetails2"  style="font-color:#2CA753;">Revenue Distribution</div>
+				<div class="areachartdetails_sub">
+					<table class="contenttable">
+						<tr style="color:#1F77B4;" ><td class="lefttable">Mach III</td><td>20%</td></tr>
+						<tr style="color:#AEC7E8;"><td class="lefttable">Gillete II</td><td>50%</td></tr>
+						<tr style="color:#FF7F0E;"><td class="lefttable">Blade</td><td>30%</td></tr>
+										
+					</table>
+					
+				
+				</div>
+				<div class="description">
+				
+				</div>
+			</div>
+		</div>
+		
+		
+	</div>
+	<div class="footer">
+	<div class="copyright">Xtream It Solutions 2014</div>
+	
+	</div>
+
+</body>
+</html>

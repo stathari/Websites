@@ -1,0 +1,103 @@
+
+
+
+<html>
+  <head>
+    <title>TMS </title>
+	
+	<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="css/styles.css">
+
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="js/bootstrap.min.js"></script>
+
+	<script type="text/javascript">
+        function login(){
+		  var un= document.getElementById("username").value;
+		  var pwd= document.getElementById("upassword").value;
+            if((un=="marcus" && pwd=="mfiR0cks")){
+	           
+               window.location = "../TMSDEMO/mainpage.html";
+               return true;
+    	       //    document.location.href = "../retail/main.html";
+			}
+       }
+        
+	   function runScript(e) {
+		    if (e.keyCode == 13) {
+		       login();
+		    }
+		}
+      
+      
+      </script>
+	
+  </head>
+  <body >
+      <div class="maincontainer">
+          <div class="div1">
+              <div class="logo">
+                  <img src="img/logo.png" class="logoimg" />
+              </div>
+              <div class="logoright">
+                  <img src="img/mfilogo.png" class="logorightimg" />
+              </div>
+          </div>
+          <div class="div2">
+
+          </div>
+          <div class="div3">
+                  <div class="div3center">
+                      <div class="spacediv"></div>
+                      <div class="logincontainer">
+                          <div class="loginwindow">
+                              <div class="welcome">
+                                  <div class="welcometag">
+                                      Welcome to TMS
+                                  </div>
+                                <div class="pa"></div>
+                                  <br />
+								  <div class="contentdesc">
+								  <img src="img/left.jpg" class="leftimg"/>
+                                  <p class="para" style="text-align:justify;">
+How do we predict the future box office of a movie?<br />
+That is where TMS comes in, and is how top studios in the industry predict how their movies will perform upon release.
+
+                                  </p>
+								  <img src="img/right.jpg" class="rightimg" />
+                              </div>
+							  </div>
+                              <div class="loginform">
+                                  <form>
+                                      <div class="loginname">LOGIN HERE</div>
+                                      <input type="text" placeholder="Username" class="logininput" id="username"/>
+                             <input type="password" id="upassword" value="" class="logininput" placeholder="Password" onkeypress="return runScript(event)" required>
+                                     
+                                    <input type="button" value="Login" class="loginbutton" onclick="login();"/>
+                                  </form>
+                              </div>
+                          </div>
+                          </div>
+                  </div>
+             
+          </div>
+          <div class="div4">
+
+              <div class="logo2">
+                  <img src="img/footerlogo.png" class="logo2img" />
+              </div>
+              <div class="logoright2">
+                  TMS Copyrights 2014 All Rights Reserved
+              </div>
+
+          </div>
+
+          <div class="div5">
+              Sorry No display for these layout please
+          </div>
+
+
+      </div>
+  </body>
+</html>

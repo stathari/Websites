@@ -1,0 +1,670 @@
+<html>
+<head>
+    <title>Retail </title>
+	<link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
+	<link rel="stylesheet" href="css/products.css">
+	<link rel="stylesheet" href="css/magicsuggest.css">
+	 <link rel="stylesheet" href="js/prettify/prettify.css">
+
+	 <script src="js/jquery-1.11.1.min.js"></script>
+	<link href="js/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="bootstrap.js"></script>
+	<script src="js/d3.v2.min.js"></script>
+	<script src="js/d3.min.js"></script>
+	<script src="js/dimple.v2.0.0.min.js"></script>
+	<script src="js/hierarchical-pie.js"></script>
+	<script src="js/d3.tip.v0.6.3.js"></script>
+	<script type="text/javascript" src="js/highcharts/highcharts.js"></script>
+	<script type="text/javascript" src="js/highcharts/drilldown-multiseries.js"></script> 
+	<script type="text/javascript" src="js/app-charts/custom-charts.js"></script> 
+	<script type="text/javascript" src="js/magicsuggest-min.js"></script>
+	<script type="text/javascript" src="data/histograms.js"></script>
+	<style>
+		 .axis path,
+      .axis line {
+        fill: none;
+        stroke: #121401;
+        stroke-width: 3px;
+        shape-rendering: crispEdges;
+      }
+      .point {
+        stroke: grey;
+        stroke-width: 3px;
+        opacity: 0;
+      }
+      .point:hover{
+        opacity: .5;
+      }
+          .axis path,
+      .axis line {
+        fill: none;
+        stroke: #121401;
+        stroke-width: 2px;
+        shape-rendering: crispEdges;
+      }
+	</style>
+    <script type="text/javascript">
+	
+
+	
+	var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-45101494-1']);
+		_gaq.push(['_setDomainName', 'delimited.io']);
+		_gaq.push(['_trackPageview']);
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+
+        
+        function loadchart(){
+            		 var margin = {top: 20, right: 55, bottom: 30, left: 50},
+          width  = 800 - margin.left - margin.right,
+          height = 340  - margin.top  - margin.bottom;
+
+      var x = d3.scale.ordinal()
+          .rangeRoundBands([0, width], .1);
+
+      var y = d3.scale.linear()
+          .rangeRound([height, 0]);
+
+      var xAxis = d3.svg.axis()
+          .scale(x)
+          .orient("bottom");
+
+      var yAxis = d3.svg.axis()
+          .scale(y)
+          .orient("left");
+
+      var stack = d3.layout.stack()
+          .offset("zero")
+          .values(function (d) { return d.values; })
+          .x(function (d) { return x(d.label) + x.rangeBand() / 2; })
+          .y(function (d) { return d.value; });
+
+      var area = d3.svg.area()
+          .interpolate("cardinal")
+          .x(function (d) { return x(d.label) + x.rangeBand() / 2; })
+          .y0(function (d) { return y(d.y0); })
+          .y1(function (d) { return y(d.y0 + d.y); });
+
+      var color = d3.scale.ordinal()
+          .range(["#23B14D","#1D78B4"]);
+
+      var svg = d3.select("#areachart").append("svg")
+          .attr("width",  width  + margin.left + margin.right)
+          .attr("height", height + margin.top  + margin.bottom)
+        .append("g")
+          .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+      d3.csv("data/crunchbase-quarters1.csv", function (error, data) {
+
+        var labelVar = 'quarter';
+        var varNames = d3.keys(data[0])
+            .filter(function (key) { return key !== labelVar;});
+        color.domain(varNames);
+
+        var seriesArr = [], series = {};
+        varNames.forEach(function (name) {
+          series[name] = {name: name, values:[]};
+          seriesArr.push(series[name]);
+        });
+
+        data.forEach(function (d) {
+          varNames.map(function (name) {
+            series[name].values.push({name: name, label: d[labelVar], value: +d[name]});
+          });
+        });
+
+        x.domain(data.map(function (d) { return d.quarter; }));
+
+        stack(seriesArr);
+
+        y.domain([0, d3.max(seriesArr, function (c) { 
+            return d3.max(c.values, function (d) { return d.y0 + d.y; });
+          })]);
+
+        svg.append("g")
+            .attr("class", "x axis")
+            .attr("transform", "translate(0," + height + ")")
+            .call(xAxis);
+
+        svg.append("g")
+            .attr("class", "y axis")
+            .call(yAxis)
+          .append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 6)
+            .attr("dy", ".71em")
+            .style("text-anchor", "end")
+            .text("Tweet count");
+
+        var selection = svg.selectAll(".series")
+          .data(seriesArr)
+          .enter().append("g")
+            .attr("class", "series");
+
+        selection.append("path")
+          .attr("class", "streamPath")
+          .attr("d", function (d) { return area(d.values); })
+          .style("fill", function (d) { return color(d.name); })
+          .style("stroke", "grey");
+
+        var points = svg.selectAll(".seriesPoints")
+          .data(seriesArr)
+          .enter().append("g")
+            .attr("class", "seriesPoints");
+
+        points.selectAll(".point")
+          .data(function (d) { return d.values; })
+          .enter().append("circle")
+           .attr("class", "point")
+           .attr("cx", function (d) { return x(d.label) + x.rangeBand() / 2; })
+           .attr("cy", function (d) { return y(d.y0 + d.y); })
+           .attr("r", "10px")
+           .style("fill",function (d) { return color(d.name); })
+           .on("mouseover", function (d) { showPopover.call(this, d); })
+           .on("mouseout",  function (d) { removePopovers(); })
+
+        var legend = svg.selectAll(".legend")
+            .data(varNames.slice().reverse())
+          .enter().append("g")
+            .attr("class", "legend")
+            .attr("transform", function (d, i) { return "translate(55," + i * 20 + ")"; });
+
+        legend.append("rect")
+            .attr("x", width - 10)
+            .attr("width", 10)
+            .attr("height", 10)
+            .style("fill", color)
+            .style("stroke", "grey");
+
+        legend.append("text")
+            .attr("x", width - 12)
+            .attr("y", 6)
+            .attr("dy", ".35em")
+            .style("text-anchor", "end")
+            .text(function (d) { return d; });
+
+        function removePopovers () {
+          $('.popover').each(function() {
+            $(this).remove();
+          }); 
+        }
+
+        function showPopover (d) {
+          $(this).popover({
+            title: d.name,
+            placement: 'auto top',
+            container: 'body',
+            trigger: 'manual',
+            html : true,
+            content: function() { 
+              return "Quarter: " + d.label + 
+                     "<br/>Rounds: " + d3.format(",")(d.value ? d.value: d.y1 - d.y0); }
+          });
+          $(this).popover('show')
+        }
+
+      });
+	
+
+        }
+        
+		function loadchart1(){
+             var margin = {top: 20, right: 55, bottom: 30, left: 50},
+          width  = 800 - margin.left - margin.right,
+          height = 340  - margin.top  - margin.bottom;
+
+      var x = d3.scale.ordinal()
+          .rangeRoundBands([0, width], .1);
+
+      var y = d3.scale.linear()
+          .rangeRound([height, 0]);
+
+      var xAxis = d3.svg.axis()
+          .scale(x)
+          .orient("bottom");
+
+      var yAxis = d3.svg.axis()
+          .scale(y)
+          .orient("left");
+
+      var stack = d3.layout.stack()
+          .offset("zero")
+          .values(function (d) { return d.values; })
+          .x(function (d) { return x(d.label) + x.rangeBand() / 2; })
+          .y(function (d) { return d.value; });
+
+      var area = d3.svg.area()
+          .interpolate("cardinal")
+          .x(function (d) { return x(d.label) + x.rangeBand() / 2; })
+          .y0(function (d) { return y(d.y0); })
+          .y1(function (d) { return y(d.y0 + d.y); });
+
+      var color = d3.scale.ordinal()
+          .range(["#FF7F0D","#1D78B4"]);
+
+      var svg = d3.select("#twitter").append("svg")
+          .attr("width",  width  + margin.left + margin.right)
+          .attr("height", height + margin.top  + margin.bottom)
+        .append("g")
+          .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+      d3.csv("data/crunchbase-quarters.csv", function (error, data) {
+
+        var labelVar = 'quarter';
+        var varNames = d3.keys(data[0])
+            .filter(function (key) { return key !== labelVar;});
+        color.domain(varNames);
+
+        var seriesArr = [], series = {};
+        varNames.forEach(function (name) {
+          series[name] = {name: name, values:[]};
+          seriesArr.push(series[name]);
+        });
+
+        data.forEach(function (d) {
+          varNames.map(function (name) {
+            series[name].values.push({name: name, label: d[labelVar], value: +d[name]});
+          });
+        });
+
+        x.domain(data.map(function (d) { return d.quarter; }));
+
+        stack(seriesArr);
+
+        y.domain([0, d3.max(seriesArr, function (c) { 
+            return d3.max(c.values, function (d) { return d.y0 + d.y; });
+          })]);
+
+        svg.append("g")
+            .attr("class", "x axis")
+            .attr("transform", "translate(0," + height + ")")
+            .call(xAxis);
+
+        svg.append("g")
+            .attr("class", "y axis")
+            .call(yAxis)
+          .append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 6)
+            .attr("dy", ".71em")
+            .style("text-anchor", "end")
+            .text("Tweet count");
+
+        var selection = svg.selectAll(".series")
+          .data(seriesArr)
+          .enter().append("g")
+            .attr("class", "series");
+
+        selection.append("path")
+          .attr("class", "streamPath")
+          .attr("d", function (d) { return area(d.values); })
+          .style("fill", function (d) { return color(d.name); })
+          .style("stroke", "grey");
+
+        var points = svg.selectAll(".seriesPoints")
+          .data(seriesArr)
+          .enter().append("g")
+            .attr("class", "seriesPoints");
+
+        points.selectAll(".point")
+          .data(function (d) { return d.values; })
+          .enter().append("circle")
+           .attr("class", "point")
+           .attr("cx", function (d) { return x(d.label) + x.rangeBand() / 2; })
+           .attr("cy", function (d) { return y(d.y0 + d.y); })
+           .attr("r", "10px")
+           .style("fill",function (d) { return color(d.name); })
+           .on("mouseover", function (d) { showPopover.call(this, d); })
+           .on("mouseout",  function (d) { removePopovers(); })
+
+        var legend = svg.selectAll(".legend")
+            .data(varNames.slice().reverse())
+          .enter().append("g")
+            .attr("class", "legend")
+            .attr("transform", function (d, i) { return "translate(55," + i * 20 + ")"; });
+
+        legend.append("rect")
+            .attr("x", width - 10)
+            .attr("width", 10)
+            .attr("height", 10)
+            .style("fill", color)
+            .style("stroke", "grey");
+
+        legend.append("text")
+            .attr("x", width - 12)
+            .attr("y", 6)
+            .attr("dy", ".35em")
+            .style("text-anchor", "end")
+            .text(function (d) { return d; });
+
+        function removePopovers () {
+          $('.popover').each(function() {
+            $(this).remove();
+          }); 
+        }
+
+        function showPopover (d) {
+          $(this).popover({
+            title: d.name,
+            placement: 'auto top',
+            container: 'body',
+            trigger: 'manual',
+            html : true,
+            content: function() { 
+              return "Quarter: " + d.label + 
+                     "<br/>Rounds: " + d3.format(",")(d.value ? d.value: d.y1 - d.y0); }
+          });
+          $(this).popover('show')
+        }
+
+      });
+	
+        
+        }
+       function multilineChart(){
+$('#multilinechart').empty();
+var dynamicWidth = $("#multilinechart").width();
+	  var margin = {top: 20, right: 55, bottom: 40, left: 40},
+          width  = dynamicWidth - margin.left - margin.right,
+          height = 300  - margin.top  - margin.bottom;
+
+      var x = d3.scale.ordinal()
+          .rangeRoundBands([0, width], .1);
+
+      var y = d3.scale.linear()
+          .rangeRound([height, 0]);
+
+      var xAxis = d3.svg.axis()
+          .scale(x)
+          .orient("bottom");
+
+      var yAxis = d3.svg.axis()
+          .scale(y)
+          .orient("left");
+
+      var line = d3.svg.line()
+          .interpolate("cardinal")
+          .x(function (d) { return x(d.label) + x.rangeBand() / 2; })
+          .y(function (d) { return y(d.value); });
+
+      var color = d3.scale.ordinal()
+          .range(["#001c9c","#101b4d","#475003","#9c8305","#d3c47c"]);
+
+      var svg = d3.select("#multilinechart").append("svg")
+          .attr("width",  width  + margin.left + margin.right)
+          .attr("height", height + margin.top  + margin.bottom)
+        .append("g")
+          .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+      d3.csv("data/multiline.csv", function (error, data) {
+
+        var labelVar = 'quarter';
+        var varNames = d3.keys(data[0]).filter(function (key) { return key !== labelVar;});
+        color.domain(varNames);
+
+        var seriesData = varNames.map(function (name) {
+          return {
+            name: name,
+            values: data.map(function (d) {
+              return {name: name, label: d[labelVar], value: +d[name]};
+            })
+          };
+        });
+
+        x.domain(data.map(function (d) { return d.quarter; }));
+        y.domain([
+          d3.min(seriesData, function (c) { 
+            return d3.min(c.values, function (d) { return d.value; });
+          }),
+          d3.max(seriesData, function (c) { 
+            return d3.max(c.values, function (d) { return d.value; });
+          })
+        ]);
+
+        svg.append("g")
+            .attr("class", "x axis")
+            .attr("transform", "translate(0," + height + ")")
+            .call(xAxis);
+
+        svg.append("g")
+            .attr("class", "y axis")
+            .call(yAxis)
+          .append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 6)
+            .attr("dy", ".71em")
+            .style("text-anchor", "end")
+            .text("Sales");
+
+        var series = svg.selectAll(".series")
+            .data(seriesData)
+          .enter().append("g")
+            .attr("class", "series");
+
+        series.append("path")
+          .attr("class", "line")
+          .attr("d", function (d) { return line(d.values); })
+          .style("stroke", function (d) { return color(d.name); })
+          .style("stroke-width", "1px")
+          .style("fill", "none")
+
+        series.selectAll(".point")
+          .data(function (d) { return d.values; })
+          .enter().append("circle")
+           .attr("class", "point")
+           .attr("cx", function (d) { return x(d.label) + x.rangeBand()/2; })
+           .attr("cy", function (d) { return y(d.value); })
+           .attr("r", "1.5px")
+           .style("fill", function (d) { return color(d.name); })
+           .style("stroke", "grey")
+           .style("stroke-width", "1px")
+           .on("mouseover", function (d) { showPopover.call(this, d); })
+           .on("mouseout",  function (d) { removePopovers(); })
+
+        var legend = svg.selectAll(".legend")
+            .data(varNames.slice().reverse())
+          .enter().append("g")
+            .attr("class", "legend")
+            .attr("transform", function (d, i) { return "translate(55," + i * 20 + ")"; });
+
+        legend.append("rect")
+            .attr("x", width - 10)
+            .attr("width", 10)
+            .attr("height", 10)
+            .style("fill", color)
+            .style("stroke", "grey");
+
+        legend.append("text")
+            .attr("x", width - 12)
+            .attr("y", 6)
+            .attr("dy", ".35em")
+            .style("text-anchor", "end")
+            .text(function (d) { return d; });
+			
+        function removePopovers () {
+          $('.popover').each(function() {
+            $(this).remove();
+          }); 
+        }
+
+        function showPopover (d) {
+          $(this).popover({
+            title: d.name,
+            placement: 'auto top',
+            container: '#multilinechart',
+            trigger: 'manual',
+            html : true,
+            content: function() { 
+              return "Quarter: " + d.label + 
+                     "<br/>Earning: " + d3.format(",")(d.value ? d.value: d.y1 - d.y0); }
+          });
+          $(this).popover('show')
+        }
+      });
+    
+
+} 
+		
+		 $(document).ready(function(){
+	           loadchart();
+             loadchart1();
+             multilineChart();
+			 return;	
+	
+	});
+		
+	</script>
+	 
+</head>
+<body>
+
+	<div class="toprigid">
+		<div class="topleft"> 
+			<img src="images/logo.png" />
+		</div>
+		<div class="topright">
+			<ul id="menu">
+				<li><a href="">John Karter</a>
+					<ul>
+						<li><a href="">Profile</a></li>
+						<li><a href="">Settings</a></li>
+						<li><a href="">Logout</a></li>
+					</ul>
+				</li>
+     		</ul>
+		</div>
+	</div>
+	<div class="sideoptions2">
+		<a href="main.html"><div class="menulinks" align="center">
+			<img src="images/menu/home.png" alt="Products Home Page"/>
+		</div>
+		</a>
+			<a href="productdetails.html"><div class="menulinks" align="center">
+			<img src="images/menu/product.png" alt="Products Home Page"/>
+		</div>
+		</a>
+			<a href="graphs.html"><div class="menulinks" align="center">
+			<img src="images/menu/charts.png" alt="Products Home Page"/>
+		</div>
+		</a>
+			<a href="social.html"><div class="menulinksactive" align="center">
+			<img src="images/menu/share.png" alt="Products Home Page"/>
+		</div>
+		</a>
+			<a href="#"><div class="menulinks" align="center">
+			<img src="images/menu/compare.png" alt="Products Home Page"/>
+		</div>
+		</a>
+		<a href="#"><div class="menulinks" align="center">
+			<img src="images/menu/setting.png" alt="Products Home Page"/>
+		</div>
+		</a>
+	</div>
+	<div class="content2">
+	    <div class="toprigid1">
+
+		<div class="toprightbar">
+			<ul id="menu1">
+				<li><a href="social_overview.html">Social Overview</a>
+					<ul>
+						<li>
+                            <a href="#">Twitter</a></li>
+					</ul>
+				</li>
+     		</ul>
+		</div>
+	</div>
+        <div class="area_chart">
+			<div class="areachart" id="areachart">
+			<script>
+					</script>
+			</div>
+			<div class="area_chart_details">
+				
+				<div class="areachartdetails">Overview</div>
+				<div class="areachartdetails_sub">
+					63,193 tweets in total
+					<br /><br />
+					with an increase of 19.3%
+				
+				</div>
+				<div class="description">
+				7.14% tweets were observed as negative
+				</div>
+			</div>
+		</div>
+		<div class="area_chart">
+			<div class="area_chart_details">
+				
+				<div class="areachartdetails1"  style="font-color:#2CA753;">Content Analysis</div>
+				<div class="areachartdetails_sub">
+					9.1% tweeters said they are potential buyers 
+					<br /><br />
+					3.89
+				
+				</div>
+				<div class="description">
+				37.8% seem to be loyal customers
+				<br />
+				12.7% seem to love your Product
+				</div>
+			</div>
+			<div class="areachart" id="barchart">
+			<img src="images/social_buzz.png"  style="margin-left:10%; "/>
+			</div>
+			
+		</div>
+		<div class="area_chart">
+			<div class="areachart" id="twitter">
+				<script>
+				
+			</script>
+			</div>
+			<div class="area_chart_details">
+				
+				<div class="areachartdetails">Overview</div>
+				<div class="areachartdetails_sub">
+					63,193 tweets in total
+					<br /><br />
+					with an increase of 19.3%
+				
+				</div>
+				<div class="description">
+				7.14% tweets were observed as negative
+				</div>
+			</div>
+		</div>
+        <div class="area_chart">
+			<div class="area_chart_details">
+				
+				<div class="areachartdetails">Comparisons</div>
+				<div class="areachartdetails_sub">
+                        Your Product stands 2nd among the
+					<br /><br />
+                    listed 2 competitors this week
+				
+				</div>
+				<div class="description">
+				</div>
+			</div>
+            
+            <div class="areachart" id="multilinechart">
+			
+	
+			
+			</div>
+			
+		</div>
+	</div>
+	<div class="footer">
+	<div class="copyright">Xtream It Solutions 2014</div>
+	
+	</div>
+
+</body>
+</html>
